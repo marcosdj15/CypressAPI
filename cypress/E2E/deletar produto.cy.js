@@ -1,31 +1,28 @@
 /// <reference types="cypress"/>
 
+describe("Deletar Produto", () => {
+  it("DELETAR UM PRODUTO", () => {
+    cy.readFile("cypress/fixtures/produtoId.json").then((data) => {
+      cy.request({
+        method: "DELETE",
+        url: `https://api.restful-api.dev/objects/${data.id}`,
+      }).then((response) => {
+        expect(response.status).to.equal(200);
+        expect(response.body.message).to.equal(
+          `Object with id = ${data.id} has been deleted.`
+        );
+      });
+    });
+  });
 
-describe('Cadastrar Produto', ()=>{
-
-    it('DELETAR UM PRODUTO', ()=>{
-        cy.request({
-            method: 'DELETE',
-            url: 'https://api.restful-api.dev/objects/ff808181923ed5e201927ef24bc001f2',
-        
-        })
-         .then((response)=> {
-           expect(response.status).to.equal(200)
-           expect(response.body.message).to.equal('Object with id = ff808181923ed5e201927ef24bc001f2 has been deleted.')
-         })
-      })
-
-      
-    it('DELETAR UM PRODUTO INEXISTENTE', ()=>{
-        cy.request({
-            method: 'DELETE',
-            url: 'https://api.restful-api.dev/objects/00323231463',
-             failOnCodeStatus:false
-        })
-         .then((response)=> {
-           expect(response.status).to.equal(404)
-           
-         })
-      })
-
-})
+  it("DELETAR UM PRODUTO INEXISTENTE", () => {
+    cy.request({
+      method: "DELETE",
+      url: "https://api.restful-api.dev/objects/00323231463",
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.equal(404);
+      expect(response.statusText).to.equal('Not Found')
+    });
+  });
+});
