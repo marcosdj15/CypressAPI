@@ -26,6 +26,7 @@ describe("Buscar produto", () => {
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.equal(404);
+      expect(response.statusText).to.equal('Not Found')
     });
   });
 });
